@@ -3,17 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><{ VITE_APP_TITLE }></title>
-  <link href="<{ VITE_APP_FAVICON_URL }>" rel="shortcut icon" type="image/x-icon" />
-  <link href="<{ VITE_APP_URL }>/index.css" rel="stylesheet" type="text/css" />
+  <title><%= title %></title>
+  <link href="<%= faviconUrl %>" rel="shortcut icon" type="image/x-icon" />
+  <% if (!local) { %>
+  <link href="<%= appUrl %>/index.css" rel="stylesheet" type="text/css" />
+  <% } %>
 </head>
 <body class="fixed overflow-hidden w-full min-h-full flex">
 <div id="app" class="w-full"></div>
 <script type="module">
-  window.baseUrl = import.meta.env.VITE_APP_BASE_URL
-  window.homeUrl = import.meta.env.VITE_APP_HOME_URL
-  window.logoUrl = import.meta.env.VITE_APP_LOGO_URL
+  window.isDev = '<%= isDev %>' === 'true'
+  window.baseUrl = '<%= baseUrl %>'
+  window.homeUrl = '<%= homeUrl %>'
+  window.logoUrl = '<%= logoUrl %>'
 </script>
-<script type="module" src="<{ VITE_APP_URL }>/index.js"></script>
+<% if (local) { %>
+<script type="module" src="<%= appUrl %>/src/main.js"></script>
+<% } else { %>
+<script type="module" src="<%= appUrl %>/index.js"></script>
+<% } %>
 </body>
 </html>
