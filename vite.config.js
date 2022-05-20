@@ -12,5 +12,18 @@ export default {
         baseUrl: env.VITE_APP_BASE_URL || `http://localhost:${server.port}`
       }
     }),
+    {
+      name: 'custom-hmr',
+      enforce: 'post',
+      handleHotUpdate({ file, server }) {
+        const filePath = file.replace(__dirname, '')
+        if (filePath.indexOf('/public/codetorial') === 0) {
+          server.ws.send({
+            type: 'custom',
+            event: 'data-updated'
+          })
+        }
+      },
+    }
   ]
 }
